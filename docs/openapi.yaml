@@ -1,0 +1,338 @@
+openapi: 3.0.3
+info:
+  title: Acme Dashboard API
+  version: 1.0.0
+  description: Proposed contract. Review before implementing the route handlers.
+servers:
+  - url: /
+security:
+  - integrationKey: []
+paths:
+  /api/v1/invoices:
+    get:
+      summary: List invoices
+      description: Search by customer name or email. Pages are one-based.
+      parameters:
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/Search'
+      responses:
+        '200':
+          description: Page of matching records
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/PageInfo'
+                  - type: object
+                    required: [items]
+                    properties:
+                      items:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Invoice'
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      summary: Create a invoice
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvoiceInput'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/Rejected'
+        '409':
+          $ref: '#/components/responses/Conflict'
+  /api/v1/invoices/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      summary: Get a invoice
+      responses:
+        '200':
+          description: Record found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/Missing'
+    put:
+      summary: Replace the editable fields of a invoice
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvoiceInput'
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/Missing'
+        '422':
+          $ref: '#/components/responses/Rejected'
+        '409':
+          $ref: '#/components/responses/Conflict'
+    delete:
+      summary: Delete a invoice
+      responses:
+        '204':
+          description: Deleted
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/Missing'
+  /api/v1/customers:
+    get:
+      summary: List customers
+      description: Search by customer name or email. Pages are one-based.
+      parameters:
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/Search'
+      responses:
+        '200':
+          description: Page of matching records
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/PageInfo'
+                  - type: object
+                    required: [items]
+                    properties:
+                      items:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Customer'
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      summary: Create a customer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerInput'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/Rejected'
+        '409':
+          $ref: '#/components/responses/Conflict'
+  /api/v1/customers/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      summary: Get a customer
+      responses:
+        '200':
+          description: Record found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/Missing'
+    put:
+      summary: Replace the editable fields of a customer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerInput'
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/Missing'
+        '422':
+          $ref: '#/components/responses/Rejected'
+        '409':
+          $ref: '#/components/responses/Conflict'
+    delete:
+      summary: Delete a customer
+      responses:
+        '204':
+          description: Deleted
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/Missing'
+        '409':
+          $ref: '#/components/responses/Conflict'
+components:
+  securitySchemes:
+    integrationKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+  parameters:
+    Id:
+      in: path
+      name: id
+      required: true
+      schema: { type: string, format: uuid }
+    Page:
+      in: query
+      name: page
+      schema: { type: integer, minimum: 1, default: 1 }
+    PageSize:
+      in: query
+      name: pageSize
+      schema: { type: integer, minimum: 1, maximum: 100, default: 20 }
+    Search:
+      in: query
+      name: search
+      schema: { type: string, maxLength: 120 }
+  schemas:
+    PageInfo:
+      type: object
+      required: [page, pageSize, total]
+      properties:
+        page: { type: integer, minimum: 1 }
+        pageSize: { type: integer, minimum: 1, maximum: 100 }
+        total: { type: integer, minimum: 0 }
+    InvoiceInput:
+      type: object
+      additionalProperties: false
+      required: [customerId, amount, status]
+      properties:
+        customerId: { type: string, format: uuid }
+        amount:
+          type: integer
+          minimum: 1
+          maximum: 2147483647
+          description: Amount in USD cents
+        status: { type: string, enum: [pending, paid] }
+    Invoice:
+      type: object
+      required: [id, customerId, amount, status, date]
+      properties:
+        id: { type: string, format: uuid }
+        customerId: { type: string, format: uuid }
+        amount: { type: integer, description: Amount in USD cents }
+        status: { type: string, enum: [pending, paid] }
+        date: { type: string, format: date }
+    CustomerInput:
+      type: object
+      additionalProperties: false
+      required: [name, email, image_url]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 120 }
+        email: { type: string, format: email, maxLength: 254 }
+        image_url:
+          type: string
+          enum:
+            - /customers/amy-burns.png
+            - /customers/balazs-orban.png
+            - /customers/delba-de-oliveira.png
+            - /customers/evil-rabbit.png
+            - /customers/lee-robinson.png
+            - /customers/michael-novotny.png
+    Customer:
+      type: object
+      required: [id, name, email, image_url]
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        email: { type: string, format: email }
+        image_url: { type: string }
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code: { type: string }
+            message: { type: string }
+  responses:
+    Invalid:
+      description: Malformed JSON, UUID, or query parameter
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid integration key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Missing:
+      description: Record not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Conflict:
+      description: The operation conflicts with another record or a database constraint
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Rejected:
+      description: JSON body fails validation or references an unknown customer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'

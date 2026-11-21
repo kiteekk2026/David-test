@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  dashboard:
+    name: Dashboard checks
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: nextjs-dashboard
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: '11.5.1'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm coverage
+      - run: pnpm build
+        env:
+          SKIP_DB_DURING_BUILD: 'true'
+          DATABASE_SESSION_URL: postgresql://unused:unused@127.0.0.1:1/unused
+          AUTH_SECRET: build-only-fixture-for-nextjs-auth-config
+
+  browser:
+    name: Browser checks
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: nextjs-dashboard
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: '11.5.1'
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - run: supabase start
+        working-directory: .
+      - run: supabase db reset --local
+        working-directory: .
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-test-results
+          path: nextjs-dashboard/test-results/
+          if-no-files-found: ignore

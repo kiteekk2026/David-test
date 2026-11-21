@@ -6,12 +6,22 @@
 -- Resolve any rows returned by either check before applying this migration.
 
 CREATE UNIQUE INDEX IF NOT EXISTS customers_email_unique_ci
-  ON customers (lower(email));
+  ON public.customers (lower(email));
 
 -- Protect the refusal-on-delete policy against races and prevent future orphan invoices.
-ALTER TABLE invoices
-  ADD CONSTRAINT invoices_customer_id_fkey
-  FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE RESTRICT
-  NOT VALID;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint
+    WHERE conrelid = 'public.invoices'::regclass
+      AND conname = 'invoices_customer_id_fkey'
+  ) THEN
+    ALTER TABLE public.invoices
+      ADD CONSTRAINT invoices_customer_id_fkey
+      FOREIGN KEY (customer_id) REFERENCES public.customers(id) ON DELETE RESTRICT
+      NOT VALID;
+  END IF;
+END
+$$;
 
-ALTER TABLE invoices VALIDATE CONSTRAINT invoices_customer_id_fkey;
+ALTER TABLE public.invoices VALIDATE CONSTRAINT invoices_customer_id_fkey;
