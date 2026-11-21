@@ -1,0 +1,82 @@
+:root {
+  color-scheme: light;
+  color: #172d2b;
+  background: #0c3937;
+  font: 100%/1.55 system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; }
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(16rem, 0.8fr) minmax(0, 1.2fr);
+  align-items: start;
+  gap: clamp(2rem, 6vw, 6rem);
+  width: min(72rem, 100%);
+  margin: auto;
+  padding: clamp(1.25rem, 6vw, 5rem);
+}
+
+.intro { color: #e6f8ef; }
+.intro a { color: inherit; text-underline-offset: 0.3em; }
+.intro h1 {
+  margin: 1.25rem 0;
+  font: 700 clamp(3rem, 8vw, 6rem)/0.95 Georgia, serif;
+  letter-spacing: -0.06em;
+}
+.intro p { max-width: 28ch; }
+#offline { color: #b8e9d4; }
+
+.card {
+  padding: clamp(1.25rem, 5vw, 2.5rem);
+  border-radius: 1.5rem;
+  background: #fbfaf3;
+  box-shadow: 0 1rem 3rem #001a173d;
+}
+.card h2 { margin: 0 0 0.75rem; font-size: clamp(1.35rem, 3vw, 1.85rem); }
+progress { display: block; width: 100%; accent-color: #0e6760; }
+.dialogue { margin: 0.4em 0; font: 700 clamp(1.35rem, 4vw, 2.25rem)/1.25 Georgia, serif; }
+#prompt { margin-top: 1.2em; }
+#prompt:empty { display: none; }
+.context { color: #445956; }
+fieldset { margin: 1rem 0; padding: 0; border: 0; }
+legend { margin-bottom: 0.5rem; font-weight: 700; }
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 3rem;
+  margin-bottom: 0.45rem;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid #b4c6bf;
+  border-radius: 0.65rem;
+  background: white;
+  cursor: pointer;
+}
+.option:has(:checked) { border-color: #0e6760; background: #dcf4e9; }
+.option input { accent-color: #0e6760; }
+
+button {
+  min-height: 2.85rem;
+  border: 0;
+  border-radius: 0.65rem;
+  padding: 0.55rem 1rem;
+  background: #0e6760;
+  color: white;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+button:hover { background: #0c504c; }
+:focus-visible { outline: 3px solid #a4580a; outline-offset: 3px; }
+#feedback:empty { display: none; }
+#feedback { padding: 0.8rem; border-radius: 0.65rem; background: #edf4e7; }
+
+@media (max-width: 48rem) {
+  .layout { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+  .intro h1 br { display: none; }
+  .intro h1 { line-height: 1; }
+}

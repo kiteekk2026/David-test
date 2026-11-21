@@ -39,6 +39,12 @@ export default function Page() {
             <span>Log in</span>
             <ArrowRightIcon className="w-5 md:w-6" />
           </Link>
+          <a
+            href="/practice/index.html"
+            className="self-start font-medium text-blue-800 underline underline-offset-4"
+          >
+            Practise Finnish
+          </a>
         </div>
 
         {/* RIGHT SIDE */}

@@ -1,0 +1,46 @@
+export const questions = [
+  {
+    prompt: "Mitä kuuluu?",
+    sentence: "________ tässä.",
+    context: "How’s it going? A jokingly blunt reply among friends.",
+    options: ["Paskaa", "Paskaakos", "Paskaakin"],
+    answer: "Paskaa",
+    explanation: "Paskaa is the partitive form of paska. Here it gives a short, crude answer about how things are going.",
+  },
+  {
+    prompt: "Toimiiko tulostin?",
+    sentence: "Ei, se on taas ________.",
+    context: "Does the printer work? No, it’s broken again.",
+    options: ["paskalle", "paskana", "paskaa"],
+    answer: "paskana",
+    explanation: "Paskana is the essive form. In the colloquial phrase olla paskana, it describes something as busted.",
+  },
+  {
+    sentence: "Tämä kahvi on ________ hyvää!",
+    context: "This coffee is really good!",
+    options: ["helvettiin", "helvetissä", "helvetin"],
+    answer: "helvetin",
+    explanation: "Helvetin is the genitive form. Before hyvää, it intensifies the adjective, like “damn good.”",
+  },
+  {
+    sentence: "Voi ________, unohdin avaimet!",
+    context: "Oh damn, I forgot my keys!",
+    options: ["saatana", "saatanan", "saatanalle"],
+    answer: "saatana",
+    explanation: "Saatana is the basic form. In voi saatana, it works as a strong exclamation of frustration.",
+  },
+  {
+    sentence: "Onpa ________ kylmä!",
+    context: "It’s absolutely freezing!",
+    options: ["perkelettä", "perkeleen", "perkeleessä"],
+    answer: "perkeleen",
+    explanation: "Perkeleen is the genitive form and intensifies kylmä. Keep this strong expression for informal settings.",
+  },
+  {
+    sentence: "Heitin rikkinäisen lampun ________.",
+    context: "I threw the broken lamp out. The speaker is annoyed.",
+    options: ["helvetissä", "helvetin", "helvettiin"],
+    answer: "helvettiin",
+    explanation: "Helvettiin is the illative form and expresses direction. In this coarse phrase, the speaker is glad to be rid of the lamp.",
+  },
+];
