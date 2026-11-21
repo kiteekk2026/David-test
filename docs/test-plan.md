@@ -19,7 +19,9 @@ The developer runs automated checks and records results. The reviewer checks acc
 
 ## Unit baseline
 
-The first coverage run passed 21 tests. Coverage for the two measured modules, `utils.ts` and `schemas.ts`, was 62.85% statements, 52.63% branches, 75% functions, and 63.63% lines.
+The first coverage run passed 21 tests. The expanded suite passed 28 tests.
+Coverage for the two measured modules, `utils.ts` and `schemas.ts`, was
+62.85% statements, 52.63% branches, 75% functions, and 63.63% lines.
 
 ## Finnish in Context
 

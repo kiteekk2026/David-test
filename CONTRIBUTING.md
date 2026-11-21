@@ -36,3 +36,13 @@ The dashboard checks use build-only placeholders and run unit tests without a
 database. This job requires no repository secrets. Keep deployment credentials in
 Vercel environment settings. If a future CI job needs a credential, use GitHub
 Actions secrets and scope it to the isolated environment used by that job.
+
+## Code review checklist
+
+Use this checklist for individual review with the teacher.
+
+- Check correctness against acceptance criteria and look for missing edge cases.
+- Check naming and verify that error messages are understandable.
+- Read the relevant tests and CI results.
+- Check authentication, database access, and environment variable handling.
+- Check labels, focus, contrast, and keyboard interaction for UI changes.

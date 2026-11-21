@@ -9,8 +9,10 @@ export default defineConfig({
     trace: "retain-on-failure",
   },
   webServer: {
-    command: "pnpm dev --hostname 127.0.0.1 --port 3100",
-    url: "http://127.0.0.1:3100/login",
+    command: process.env.PLAYWRIGHT_USE_BUILD === "1"
+      ? "pnpm start --hostname 127.0.0.1 --port 3100"
+      : "pnpm dev --hostname 127.0.0.1 --port 3100",
+    url: "http://127.0.0.1:3100/practice/index.html",
     timeout: 120_000,
     env: {
       DATABASE_SESSION_URL: "postgresql://postgres:postgres@127.0.0.1:54322/postgres",
