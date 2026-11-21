@@ -19,15 +19,6 @@ The developer runs automated checks and records results. The reviewer checks acc
 
 ## Unit baseline
 
-The first coverage run passed 21 tests. The expanded suite passed 28 tests.
+The dashboard unit suite contains 21 tests.
 Coverage for the two measured modules, `utils.ts` and `schemas.ts`, was
 62.85% statements, 52.63% branches, 75% functions, and 63.63% lines.
-
-## Finnish in Context
-
-Check that each question contains three distinct forms and a single keyed
-answer. Exercise answer submission, feedback, scoring, and restart in the
-browser. After the offline indicator appears, disconnect and reload. Verify
-the lesson through the last question on desktop, iOS Safari, and Android
-Chrome. The feature exits testing after the offline and keyboard flows pass
-and the teacher accepts the wording and vocabulary.

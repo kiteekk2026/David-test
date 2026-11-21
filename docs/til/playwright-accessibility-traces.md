@@ -1,7 +1,7 @@
 # Diagnose a CI accessibility failure with Playwright traces
 
-The first browser run passed all seven dashboard behaviour tests and both
-practice tests. Both axe audits failed. The uploaded traces identified the
+The first browser run passed all seven dashboard behaviour tests.
+Both axe audits failed. The uploaded traces identified the
 failing `toEqual([])` assertions. The job output then showed contrast failures,
 an unnamed pagination link, and a scrollable dashboard region without keyboard
 focus.

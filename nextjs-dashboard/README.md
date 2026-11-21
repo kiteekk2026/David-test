@@ -30,9 +30,6 @@ Run `pnpm dev`, open [localhost:3000](http://localhost:3000), and sign in with
 the development account. Run `pnpm lint`, `pnpm typecheck`, and `pnpm test`
 to check the code. Run `pnpm coverage` for the unit coverage summary.
 
-The landing page links to Finnish in Context. Open the practice page online
-once and wait for its offline-ready message before disconnecting.
-
 ## OAuth sign-in
 
 Email and password sign-in remains available. GitHub and Google sign-in are
