@@ -1,8 +1,37 @@
-## Next.js App Router Course - Starter
+# Acme Dashboard
 
-This is the starter template for the Next.js App Router Course. It contains the starting code for the dashboard application.
+The dashboard tracks customers, invoices, and revenue. The overview shows paid
+and pending totals. The invoices page supports search, pagination, and editing.
+The customers page supports search, customer profiles, and customer management.
 
-For more information, see the [course curriculum](https://nextjs.org/learn) on the Next.js Website.
+## Local setup
+
+Install Node.js 24 and pnpm 11.5.1. From the repository root, run:
+
+```sh
+cd nextjs-dashboard
+pnpm install --frozen-lockfile
+```
+
+With Docker and the Supabase CLI running, run `supabase start` and
+`supabase db reset --local` from the repository root. The reset applies migrations
+and provisions the disposable test account listed in `.env.test.example`.
+Create `.env.local` in this app directory using the example for reference and
+generate a local secret. Hosted PostgreSQL connections require TLS.
+
+| Variable | Purpose |
+| --- | --- |
+| `DATABASE_SESSION_URL` | PostgreSQL session connection for dashboard data and credentials sign-in |
+| `AUTH_SECRET` | Secret for Auth.js. Generate it with `node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"` |
+| `AUTH_GITHUB_ID`, `AUTH_GITHUB_SECRET` | Optional GitHub sign-in |
+| `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET` | Optional Google sign-in |
+
+Run `pnpm dev`, open [localhost:3000](http://localhost:3000), and sign in with
+the development account. Run `pnpm lint`, `pnpm typecheck`, and `pnpm test`
+to check the code. Run `pnpm coverage` for the unit coverage summary.
+
+The landing page links to Finnish in Context. Open the practice page online
+once and wait for its offline-ready message before disconnecting.
 
 ## OAuth sign-in
 
