@@ -1,36 +1,16 @@
 "use server";
 
-import { signIn } from "@/auth";
+import { auth, signIn } from "@/auth";
 import { AuthError } from "next-auth";
 import {
   getOAuthProviderCredentials,
   type OAuthProviderId,
 } from "@/app/lib/auth-providers";
-import { z } from "zod";
+import { CUSTOMER_AVATARS, CustomerSchema, InvoiceSchema } from "./schemas";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 // import postgres from "postgres";
 import { sql } from "./db";
-
-const FormSchema = z.object({
-  id: z.string(),
-  customerId: z
-    .string({ invalid_type_error: "Please select a customer." })
-    .min(1, { message: "Please select a customer." }),
-  amount: z.preprocess(
-    (value) => (value === null || value === "" ? undefined : value),
-    z.coerce
-      .number({ invalid_type_error: "Please enter an amount." })
-      .gt(0, { message: "Please enter an amount greater than $0." }),
-  ),
-  status: z.enum(["pending", "paid"], {
-    invalid_type_error: "Please select an invoice status.",
-  }),
-  date: z.string(),
-});
-
-const CreateInvoice = FormSchema.omit({ id: true, date: true });
-const UpdateInvoice = FormSchema.omit({ id: true, date: true });
 
 export type State = {
   errors?: {
@@ -42,7 +22,8 @@ export type State = {
 };
 
 export async function createInvoice(prevState: State, formData: FormData) {
-  const validatedFields = CreateInvoice.safeParse({
+  if (!(await auth())?.user) redirect("/login");
+  const validatedFields = InvoiceSchema.safeParse({
     customerId: formData.get("customerId"),
     amount: formData.get("amount"),
     status: formData.get("status"),
@@ -83,7 +64,8 @@ export async function updateInvoice(
   prevState: State,
   formData: FormData,
 ) {
-  const validatedFields = UpdateInvoice.safeParse({
+  if (!(await auth())?.user) redirect("/login");
+  const validatedFields = InvoiceSchema.safeParse({
     customerId: formData.get("customerId"),
     amount: formData.get("amount"),
     status: formData.get("status"),
@@ -120,6 +102,7 @@ export async function deleteInvoice(
   _prevState: State,
   _formData: FormData,
 ): Promise<State> {
+  if (!(await auth())?.user) redirect("/login");
   let invoiceDeleted: boolean;
   try {
     const deletedInvoices =
@@ -189,23 +172,6 @@ export async function authenticateWithOAuth(formData: FormData) {
 }
 
 
-const CUSTOMER_AVATARS = [
-  '/customers/amy-burns.png',
-  '/customers/balazs-orban.png',
-  '/customers/delba-de-oliveira.png',
-  '/customers/evil-rabbit.png',
-  '/customers/lee-robinson.png',
-  '/customers/michael-novotny.png',
-] as const;
-
-const CustomerSchema = z.object({
-  name: z.string().trim().min(1, 'Enter the customer name.').max(120, 'Name must be 120 characters or fewer.'),
-  email: z.string().trim().email('Enter a valid email address.').max(254, 'Email is too long.'),
-  image_url: z.string().refine((value) => CUSTOMER_AVATARS.includes(value as (typeof CUSTOMER_AVATARS)[number]), {
-    message: 'Choose one of the available avatars.',
-  }),
-});
-
 export type CustomerActionState = {
   errors?: { name?: string[]; email?: string[]; image_url?: string[] };
   message?: string | null;
@@ -229,6 +195,7 @@ export async function createCustomer(
   _prevState: CustomerActionState,
   formData: FormData,
 ): Promise<CustomerActionState> {
+  if (!(await auth())?.user) redirect("/login");
   const values = customerValues(formData);
   const validated = CustomerSchema.safeParse(values);
   if (!validated.success) {
@@ -269,6 +236,7 @@ export async function updateCustomer(
   _prevState: CustomerActionState,
   formData: FormData,
 ): Promise<CustomerActionState> {
+  if (!(await auth())?.user) redirect("/login");
   if (!UUID_PATTERN_FOR_ACTION.test(id)) return { message: 'Invalid customer ID.' };
   const values = customerValues(formData);
   const validated = CustomerSchema.safeParse(values);
@@ -316,6 +284,7 @@ export async function deleteCustomer(
   _prevState: { message?: string | null },
   _formData: FormData,
 ): Promise<{ message: string | null }> {
+  if (!(await auth())?.user) redirect("/login");
   if (!UUID_PATTERN_FOR_ACTION.test(id)) return { message: 'Invalid customer ID.' };
   try {
     const invoices = await sql<{ count: string }[]>`

@@ -117,7 +117,11 @@ function PaginationArrow({
   return isDisabled ? (
     <div className={className}>{icon}</div>
   ) : (
-    <Link className={className} href={href}>
+    <Link
+      className={className}
+      href={href}
+      aria-label={direction === 'left' ? 'Previous page' : 'Next page'}
+    >
       {icon}
     </Link>
   );
