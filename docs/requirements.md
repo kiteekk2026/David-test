@@ -15,3 +15,20 @@
 | Security | Require authentication inside invoice and customer mutation actions | Session checks added. Hosted role and policy verification remains open |
 | Data protection | Keep production credentials and data away from automated tests | Unit tests use no database and browser tests target loopback fixtures |
 | Usability | Offer readable empty/error states and forms usable on laptop and phone | Verify the dashboard on real phones before release |
+
+## Customer discovery
+
+The [customer questions](https://github.com/kiteekk2026/David-test/issues/60)
+ask for the dashboard brief, target users, invoice rules, export scope, and
+mobile priorities. The proposed stories are ready to discuss after those
+answers arrive.
+
+- [Invoice filtering](https://github.com/kiteekk2026/David-test/issues/66)
+- [Search with no results](https://github.com/kiteekk2026/David-test/issues/67)
+- [Invoice deletion confirmation](https://github.com/kiteekk2026/David-test/issues/68)
+- [Customer contact validation](https://github.com/kiteekk2026/David-test/issues/69)
+- [Overdue invoice visibility](https://github.com/kiteekk2026/David-test/issues/70)
+- [Invoice export](https://github.com/kiteekk2026/David-test/issues/71)
+
+Use the confirmed scope for planning poker and mockups. Record the outcomes
+on the story issues and actual hours in the retrospective once the work is done.

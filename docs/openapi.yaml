@@ -36,7 +36,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
     post:
-      summary: Create a invoice
+      summary: Create an invoice
       requestBody:
         required: true
         content:
@@ -62,7 +62,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/Id'
     get:
-      summary: Get a invoice
+      summary: Get an invoice
       responses:
         '200':
           description: Record found
@@ -77,7 +77,7 @@ paths:
         '404':
           $ref: '#/components/responses/Missing'
     put:
-      summary: Replace the editable fields of a invoice
+      summary: Replace the editable fields of an invoice
       requestBody:
         required: true
         content:
@@ -102,7 +102,7 @@ paths:
         '409':
           $ref: '#/components/responses/Conflict'
     delete:
-      summary: Delete a invoice
+      summary: Delete an invoice
       responses:
         '204':
           description: Deleted

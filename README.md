@@ -19,6 +19,7 @@ See the [contribution guide](CONTRIBUTING.md) for the issue and review workflow.
 
 ## Project documentation
 
+- [Sprint 1–6 status and evidence](docs/sprint-1-6-status.md)
 - [Architecture and database migrations](docs/architecture.md)
 - [Proposed REST API contract](docs/openapi.yaml)
 - [Test plan](docs/test-plan.md) and [recorded results](docs/test-report.md)
